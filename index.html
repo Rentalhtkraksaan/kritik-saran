@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kritik Anonim - CWU Gen 2</title>
+
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Proteksi -->
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("selectstart", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && ["u","U","c","C","x","X","s","S","a","A"].includes(e.key)) ||
+    (e.ctrlKey && e.shiftKey && ["I","i","J","j"].includes(e.key))
+  ) e.preventDefault();
+});
+</script>
+
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <div class="head">
+      <img src="foto1.jpg" alt="icon">
+      <h1>Kritik & Saran CWU G-2</h1>
+    </div>
+
+    <p class="muted">Nama pengirim dirahasiakan & akan diproses otomatis melalui sistem cyber.</p>
+
+    <label>Divisi</label>
+    <select id="divisi"><option value="">Pilih Divisi</option></select>
+
+    <label>Target</label>
+    <select id="target"><option value="">Pilih Target</option></select>
+
+    <label>Judul Singkat</label>
+    <input id="judul" placeholder="Judul ringkas">
+
+    <label>Kritik / Saran</label>
+    <textarea id="kritik" placeholder="Tulis kritik..."></textarea>
+
+    <div class="small"><b id="anonDisplay"></b></div>
+
+    <button class="btn" id="sendBtn">Kirim Kritik</button>
+
+    <div id="statusArea" class="info" style="display:none"></div>
+
+  </div>
+</div>
+
+<script src="firebase.js"></script>
+<script src="main.js"></script>
+
+</body>
+</html>
