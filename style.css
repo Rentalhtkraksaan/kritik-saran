@@ -23,6 +23,8 @@ body{
   user-select:none;
   opacity:0;
   animation:bodyFade .7s ease forwards;
+    -webkit-tap-highlight-color: transparent;
+
 }
 
 @keyframes bodyFade{ to{opacity:1;} }
@@ -192,3 +194,4 @@ textarea{min-height:120px;}
   }
   }
   
+
