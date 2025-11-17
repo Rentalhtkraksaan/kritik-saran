@@ -114,22 +114,22 @@ sendBtn.addEventListener("click", ()=>{
 
   db.ref("kritik").push().set(payload).then(()=>{
     statusArea.style.display = "block";
-    statusArea.textContent = "Kritik berhasil dikirim. Terima kasih!";
+    statusArea.textContent = "Berhasil dikirim. Terima kasih!";
     document.getElementById("judul").value="";
     document.getElementById("kritik").value="";
     
     // Mengaktifkan kembali tombol
     sendBtn.disabled = false;
-    sendBtn.textContent = "Kirim Kritik";
+    sendBtn.textContent = "KIRIM";
 
     setTimeout(()=> statusArea.style.display="none",4500);
     loadKritik();
   }).catch(error => {
     // Handle error jika pengiriman gagal
     statusArea.style.display = "block";
-    statusArea.textContent = "❌ Gagal mengirim kritik: " + error.message;
+    statusArea.textContent = "❌ Gagal mengirim: " + error.message;
     sendBtn.disabled = false;
-    sendBtn.textContent = "Kirim Kritik";
+    sendBtn.textContent = "KIRIM";
     setTimeout(()=> statusArea.style.display="none",6000);
   });
 });
@@ -138,3 +138,4 @@ sendBtn.addEventListener("click", ()=>{
 // 4. Load kritik saat halaman dibuka
 loadKritik();
                          
+
