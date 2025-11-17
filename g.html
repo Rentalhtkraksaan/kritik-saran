@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Kritik Anonim CWU Gen 2 v1.0</title>
+
+<link rel="icon" type="image/jpeg" href="foto2.jpg">
+
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+
+<!-- Proteksi -->
+<script>
+document.addEventListener("contextmenu", e => e.preventDefault());
+document.addEventListener("selectstart", e => e.preventDefault());
+document.addEventListener("keydown", e => {
+  if (
+    e.key === "F12" ||
+    (e.ctrlKey && ["u","U","c","C","x","X","s","S","a","A"].includes(e.key)) ||
+    (e.ctrlKey && e.shiftKey && ["I","i","J","j"].includes(e.key))
+  ) e.preventDefault();
+});
+</script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --bg-dark:#060a12;
+  --card:#0d1321;
+  --glow:#00c8ff;
+  --glow-soft:rgba(0,200,255,0.45);
+  --text:#e7eeff;
+}
+
+body{
+  margin:0;
+  background:var(--bg-dark);
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-user-select:none;
+  user-select:none;
+  opacity:0;
+  animation:bodyFade .7s ease forwards;
+}
+
+@keyframes bodyFade{ to{opacity:1;} }
+
+.wrap{
+  max-width:760px;
+  margin:40px auto;
+  padding:20px;
+  filter:blur(18px);
+  opacity:0;
+  animation:wrapIn 1s ease forwards .2s;
+}
+@keyframes wrapIn{ to{filter:blur(0);opacity:1;} }
+
+.card{
+  background:var(--card);
+  padding:32px;
+  border-radius:20px;
+  border:1px solid rgba(0,200,255,0.15);
+  box-shadow:0 0 25px rgba(0,200,255,.10);
+  transform:translateY(25px);
+  opacity:0;
+  animation:cardShow .8s ease forwards .45s;
+  position:relative;
+}
+@keyframes cardShow{ to{opacity:1;transform:translateY(0);} }
+
+.card:before{
+  content:"";
+  position:absolute;
+  inset:-3px;
+  border-radius:22px;
+  background:linear-gradient(135deg,rgba(0,200,255,0.6),transparent,rgba(0,200,255,0.4));
+  z-index:-1;
+  filter:blur(14px);
+  opacity:0;
+  animation:glowFade .8s ease forwards 1s;
+}
+@keyframes glowFade{ to{opacity:1;} }
+
+.head{
+  display:flex;
+  align-items:center;
+  gap:18px;
+  margin-bottom:15px;
+}
+.head img{
+  width:55px;
+  height:55px;
+  border-radius:14px;
+  object-fit:cover;
+  box-shadow:0 0 12px rgba(0,200,255,.4);
+  opacity:0;
+  transform:scale(.85);
+  animation:imgPop .5s ease forwards .8s;
+}
+@keyframes imgPop{ to{opacity:1;transform:scale(1);} }
+
+.head h1{
+  margin:0;
+  font-size:26px;
+  font-weight:700;
+  text-shadow:0 0 12px var(--glow-soft);
+}
+
+.muted{ opacity:.8; margin-bottom:22px; }
+
+label{ margin-top:18px; font-size:14px; }
+
+select,input,textarea{
+  width:100%;
+  margin-top:8px;
+  padding:14px;
+  background:#0e1628;
+  border:1px solid rgba(0,200,255,0.25);
+  color:var(--text);
+  border-radius:12px;
+  outline:none;
+  transition:.25s;
+}
+select:focus,input:focus,textarea:focus{
+  border-color:var(--glow);
+  box-shadow:0 0 14px var(--glow-soft);
+}
+
+textarea{min-height:120px;}
+
+.small{ opacity:.85; margin-top:12px; }
+
+.btn{
+  margin-top:30px;
+  width:100%;
+  padding:15px;
+  background:linear-gradient(135deg,#009dff,#00eaff);
+  border:none;
+  color:#fff;
+  font-weight:700;
+  border-radius:14px;
+  font-size:17px;
+  cursor:pointer;
+  transition:.3s;
+}
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 28px rgba(0,200,255,.55);
+}
+
+.info{
+  margin-top:20px;
+  padding:16px;
+  border-radius:12px;
+  background:rgba(0,200,255,0.13);
+  border-left:4px solid var(--glow);
+  font-size:14px;
+  backdrop-filter:blur(6px);
+}
+
+.kritik-card{
+  background:#0e1628;
+  border:1px solid rgba(0,200,255,0.2);
+  border-radius:12px;
+  padding:14px;
+  margin-top:12px;
+  word-wrap:break-word;
+}
+
+.kritik-card h3{
+  margin:0 0 6px 0;
+  font-size:16px;
+  color:#00eaff;
+}
+
+.kritik-card p{ margin:0 0 4px 0; font-size:14px; line-height:1.4; }
+.kritik-card small{ font-size:12px; opacity:.6; }
+
+#anonDisplay{display:none;}
+
+@media(max-width:600px){
+  .card{padding:24px;}
+  .head img{width:46px;height:46px;}
+  .head h1{font-size:22px;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="card">
+
+    <div class="head">
+      <img src="foto1.jpg" alt="icon">
+      <h1>Kritik & Saran CWU G-2</h1>
+    </div>
+
+    <p class="muted">Nama pengirim dirahasiakan & akan diproses otomatis melalui sistem cyber.</p>
+
+    <label>Divisi</label>
+    <select id="divisi"><option value="">Pilih Divisi</option></select>
+
+    <label>Target</label>
+    <select id="target"><option value="">Pilih Target</option></select>
+
+    <label>Judul Singkat</label>
+    <input id="judul" placeholder="Judul ringkas">
+
+    <label>Kritik / Saran</label>
+    <textarea id="kritik" placeholder="Tulis kritik..."></textarea>
+
+    <div class="small">V 1.0<b id="anonDisplay"></b></div>
+
+    <button class="btn" id="sendBtn">Kirim Kritik</button>
+
+    <div id="statusArea" class="info" style="display:none"></div>
+
+
+  </div>
+</div>
+
+<script>
+/* ---------- Firebase ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyDpPEkKbEt6b_v2OWlBfGuaVQpBg2-RWR4",
+  authDomain: "cwu-gen-2.firebaseapp.com",
+  databaseURL: "https://cwu-gen-2-default-rtdb.firebaseio.com",
+  projectId: "cwu-gen-2",
+  storageBucket: "cwu-gen-2.appspot.com",
+  messagingSenderId: "40585612014",
+  appId: "1:40585612014:web:c88141fee3699aca68181ff"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* ---------- Anonymous ID ---------- */
+let anonID = localStorage.getItem("anonID_v1");
+if(!anonID){
+  anonID = "anon-" + Math.random().toString(36).substr(2,9);
+  localStorage.setItem("anonID_v1", anonID);
+}
+document.getElementById("anonDisplay").textContent = anonID;
+
+/* ---------- SET DIVISI ---------- */
+const divisiSelect = document.getElementById("divisi");
+const targetSelect = document.getElementById("target");
+
+function setDivisiOptions(list){
+  divisiSelect.innerHTML = '<option value="">Pilih Divisi</option>';
+  list.forEach(d=>{
+    divisiSelect.innerHTML += `<option value="${d}">${d}</option>`;
+  });
+}
+
+/* LOAD DIVISI */
+db.ref("divisi").once("value").then(s=>{
+  const v = s.val();
+  if(v){
+    const arr = Object.keys(v).map(k=>v[k].nama);
+    setDivisiOptions(arr);
+  } else {
+    setDivisiOptions(["Bpi","Medinfo","Network","Kwu","Inbis"]);
+  }
+});
+
+/* LOAD TARGET */
+divisiSelect.addEventListener("change", ()=>{
+  const d = divisiSelect.value;
+  targetSelect.innerHTML = '<option>Memuat...</option>';
+
+  if(!d){
+    targetSelect.innerHTML = '<option value="">Pilih Target</option>';
+    return;
+  }
+
+  db.ref("anggota").orderByChild("divisi").equalTo(d).once("value").then(s=>{
+    targetSelect.innerHTML = '<option value="">Pilih Target</option>';
+    s.forEach(ch=>{
+      targetSelect.innerHTML += `<option value="${ch.val().nama}">${ch.val().nama}</option>`;
+    });
+  });
+});
+
+/* ---------- KIRIM KRITIK ---------- */
+document.getElementById("sendBtn").addEventListener("click", ()=>{
+  const divisi = divisiSelect.value;
+  const target = targetSelect.value;
+  const judul  = document.getElementById("judul").value.trim();
+  const kritik = document.getElementById("kritik").value.trim();
+  const statusArea = document.getElementById("statusArea");
+
+  if(!divisi || !target || !kritik){
+    alert("Isi Divisi, Target, dan Kritik.");
+    return;
+  }
+
+  const payload = {
+    pengirim: anonID,
+    divisi,
+    target,
+    judul: judul || "(tanpa judul)",
+    kritik,
+    status:"pending",
+    waktu: new Date().toISOString()
+  };
+
+  db.ref("kritik").push().set(payload).then(()=>{
+    statusArea.style.display = "block";
+    statusArea.textContent = "⚡ Kritik berhasil dikirim. Terima kasih!";
+    document.getElementById("judul").value="";
+    document.getElementById("kritik").value="";
+    setTimeout(()=> statusArea.style.display="none",4500);
+    loadKritik();
+  });
+});
+
+/* ---------- LOAD KRITIK ---------- */
+const kritikList = document.getElementById("kritikList");
+
+function loadKritik(){
+  db.ref("kritik").orderByChild("waktu").once("value").then(s=>{
+    kritikList.innerHTML = "";
+    s.forEach(ch=>{
+      const k = ch.val();
+      const card = document.createElement("div");
+      card.className = "kritik-card";
+      card.innerHTML = `
+        <h3>${k.judul || "(tanpa judul)"}</h3>
+        <p><b>Divisi:</b> ${k.divisi} | <b>Target:</b> ${k.target}</p>
+        <p>${k.kritik}</p>
+        <small>Status: ${k.status} | Waktu: ${new Date(k.waktu).toLocaleString()}</small>
+      `;
+      kritikList.appendChild(card);
+    });
+  });
+}
+
+/* Load saat halaman dibuka */
+loadKritik();
+</script>
+
+</body>
+</html>
