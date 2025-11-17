@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+/* PENTING: Menambahkan Box Sizing untuk mengatasi overflow padding/border */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 :root{
   --bg-dark:#060a12;
@@ -13,16 +18,14 @@ body{
   background:var(--bg-dark);
   font-family:'Inter',sans-serif;
   color:var(--text);
-  overflow-x:hidden;
+  overflow-x:hidden; 
   -webkit-user-select:none;
   user-select:none;
   opacity:0;
   animation:bodyFade .7s ease forwards;
 }
 
-@keyframes bodyFade{
-  to{opacity:1;}
-}
+@keyframes bodyFade{ to{opacity:1;} }
 
 .wrap{
   max-width:760px;
@@ -32,9 +35,7 @@ body{
   opacity:0;
   animation:wrapIn 1s ease forwards .2s;
 }
-@keyframes wrapIn{
-  to{filter:blur(0);opacity:1;}
-}
+@keyframes wrapIn{ to{filter:blur(0);opacity:1;} }
 
 .card{
   background:var(--card);
@@ -47,9 +48,7 @@ body{
   animation:cardShow .8s ease forwards .45s;
   position:relative;
 }
-@keyframes cardShow{
-  to{opacity:1;transform:translateY(0);}
-}
+@keyframes cardShow{ to{opacity:1;transform:translateY(0);} }
 
 .card:before{
   content:"";
@@ -62,14 +61,12 @@ body{
   opacity:0;
   animation:glowFade .8s ease forwards 1s;
 }
-@keyframes glowFade{
-  to{opacity:1;}
-}
+@keyframes glowFade{ to{opacity:1;} }
 
 .head{
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:18px; 
   margin-bottom:15px;
 }
 .head img{
@@ -82,9 +79,7 @@ body{
   transform:scale(.85);
   animation:imgPop .5s ease forwards .8s;
 }
-@keyframes imgPop{
-  to{opacity:1;transform:scale(1);}
-}
+@keyframes imgPop{ to{opacity:1;transform:scale(1);} }
 
 .head h1{
   margin:0;
@@ -93,15 +88,9 @@ body{
   text-shadow:0 0 12px var(--glow-soft);
 }
 
-.muted{
-  opacity:.8;
-  margin-bottom:22px;
-}
+.muted{ opacity:.8; margin-bottom:22px; }
 
-label{
-  margin-top:18px;
-  font-size:14px;
-}
+label{ margin-top:18px; font-size:14px; }
 
 select,input,textarea{
   width:100%;
@@ -121,10 +110,7 @@ select:focus,input:focus,textarea:focus{
 
 textarea{min-height:120px;}
 
-.small{
-  opacity:.85;
-  margin-top:12px;
-}
+.small{ opacity:.85; margin-top:12px; }
 
 .btn{
   margin-top:30px;
@@ -169,21 +155,40 @@ textarea{min-height:120px;}
   color:#00eaff;
 }
 
-.kritik-card p{
-  margin:0 0 4px 0;
-  font-size:14px;
-  line-height:1.4;
-}
-
-.kritik-card small{
-  font-size:12px;
-  opacity:.6;
-}
+.kritik-card p{ margin:0 0 4px 0; font-size:14px; line-height:1.4; }
+.kritik-card small{ font-size:12px; opacity:.6; }
 
 #anonDisplay{display:none;}
 
+/* --- Perbaikan CSS untuk Responsif HP --- */
+
 @media(max-width:600px){
+  .wrap{
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 100%;
+  }
   .card{padding:24px;}
-  .head img{width:46px;height:46px;}
+  .head img{width:46px;height:46px;} 
   .head h1{font-size:22px;}
 }
+
+@media(max-width:400px){
+  .wrap{
+    margin: 15px auto;
+    padding: 8px;
+    max-width: 100%;
+  }
+  .card{
+    padding: 18px;
+  }
+  .head img{ width: 40px; height: 40px; } 
+  .head h1{
+    font-size: 20px;
+  }
+  .btn{
+    padding: 12px;
+    font-size: 16px;
+  }
+  }
+  
