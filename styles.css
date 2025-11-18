@@ -1,28 +1,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-
 :root{
   --bg-dark:#060a12;
   --card:#0d1321;
   --glow:#00c8ff;
-  --glow-soft:#00c8ff;
   --text:#e7eeff;
   --badge-pending:#facc15;
-  --badge-ditindak:#969696;
-  --badge-selesai:#22c55e;
+  --badge-ditindaklanjuti:#ff0000;
+  --badge-selesai:#22ff77;
 }
-
-*, *::before, *::after { box-sizing: border-box; }
+*,*::before,*::after{box-sizing:border-box;}
 body{
   margin:0;
   background:var(--bg-dark);
   font-family:'Inter',sans-serif;
   color:var(--text);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  position: relative;
-  -webkit-tap-highlight-color: transparent;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  position:relative;
+   -webkit-tap-highlight-color: transparent;
 }
 .card{
   background:var(--card);
@@ -32,12 +29,12 @@ body{
   width:95%;
   text-align:center;
   box-shadow:0 0 30px rgba(0,200,255,.15);
-  position: relative;
+  position:relative;
 }
-h2{ color: var(--glow); margin-bottom: 20px; }
+h2{ color: var(--glow); margin-bottom:20px; }
 input{
   width:200px;
-  margin-bottom:20px;
+  margin-bottom:10px;
   padding:12px;
   background:#0e1628;
   border:1px solid rgba(0,200,255,0.25);
@@ -89,6 +86,8 @@ td{
   border-bottom:1px solid rgba(255,255,255,0.1);
 }
 tr:last-child td{ border-bottom:none; }
+
+/* Badge */
 .status-badge{
   padding:5px 12px;
   border-radius:12px;
@@ -99,8 +98,18 @@ tr:last-child td{ border-bottom:none; }
   min-width:80px;
 }
 .status-pending{ background:var(--badge-pending); color:#111; }
-.status-ditindaklanjuti{ background:var(--badge-ditindak); }
-.status-selesai{ background:var(--badge-selesai); }
+.status-ditindaklanjuti{
+  background:var(--badge-ditindaklanjuti);
+  color:#fff;
+  animation:blink 1.5s infinite;
+}
+.status-selesai{ background:var(--badge-selesai); color:#060a12; }
+
+@keyframes blink{
+  0%,50%,100%{ opacity:1; }
+  25%,75%{ opacity:0.4; }
+}
+
 .action-btn{
   padding:6px 12px;
   border:none;
@@ -134,32 +143,7 @@ tr:last-child td{ border-bottom:none; }
   background:#0d1321;
   box-shadow:0 0 10px rgba(0,200,255,0.3);
 }
-@media(max-width:768px){
-  table, thead, tbody, th, td, tr { display:block; }
-  thead tr { position:absolute; top:-9999px; left:-9999px; }
-  tr { margin-bottom:12px; border-bottom:1px solid #222; }
-  td{
-    border:none;
-    position:relative;
-    padding-left:45%;
-    text-align:right;
-  }
-  td:before{
-    position:absolute;
-    left:16px;
-    width:40%;
-    padding-right:10px;
-    white-space:nowrap;
-    font-weight:600;
-    text-align:left;
-  }
-  td:nth-of-type(1):before{ content:"No"; }
-  td:nth-of-type(2):before{ content:"Tanggal/Waktu"; }
-  td:nth-of-type(3):before{ content:"Judul"; }
-  td:nth-of-type(4):before{ content:"Kritik"; }
-  td:nth-of-type(5):before{ content:"Status"; }
-  td:nth-of-type(6):before{ content:"Aksi"; }
-}
+
 .info{
   margin-top:20px;
   padding:12px;
@@ -167,11 +151,22 @@ tr:last-child td{ border-bottom:none; }
   background:rgba(255,0,0,0.13);
   border-left:4px solid red;
   font-size:14px;
-  color: red;
-  display: none;
+  color:red;
+  display:none;
 }
-#newIdDisplay{
-  margin-top:15px;
-  font-weight:600;
-  color:#00eaff;
+#newIdDisplay{ margin-top:15px; font-weight:600; color:#00eaff; }
+
+/* RESPONSIVE TABLE */
+@media(max-width:768px){
+  table, thead, tbody, th, td, tr { display:block; }
+  thead tr { position:absolute; top:-9999px; left:-9999px; }
+  tr { margin-bottom:12px; border-bottom:1px solid #222; }
+  td{ border:none; position:relative; padding-left:50%; text-align:right; }
+  td:before{ position:absolute; left:16px; width:45%; padding-right:10px; white-space:nowrap; font-weight:600; text-align:left; }
+  td:nth-of-type(1):before{ content:"No"; }
+  td:nth-of-type(2):before{ content:"Tanggal/Waktu"; }
+  td:nth-of-type(3):before{ content:"Judul"; }
+  td:nth-of-type(4):before{ content:"Kritik"; }
+  td:nth-of-type(5):before{ content:"Status"; }
+  td:nth-of-type(6):before{ content:"Aksi"; }
 }
