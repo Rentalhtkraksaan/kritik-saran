@@ -136,10 +136,11 @@ sendBtn.addEventListener("click", ()=>{
 const cekUserBtn = document.getElementById("cekUserBtn");
 
 cekUserBtn.addEventListener("click", () => {
-  window.location.href = "cek_user.html"; // langsung ke halaman cek_user.html
+  window.location.href = "user.html"; // langsung ke halaman cek_user.html
 });
 
 
 // 4. Load kritik saat halaman dibuka
 loadKritik();
                          
+
